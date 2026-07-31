@@ -1,3 +1,5 @@
+# Домашнее задание 1: Запуск приложений в K8S
+
 **Созданы манифесты для** pod-heloww-world,pod-netology и service-netology. 
 
 1. **screenshots/kubectl_get_pods_1.png** — вывод `microk8s kubectl get pods` (только hello-world)
