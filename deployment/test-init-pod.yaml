@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-init-pod
+spec:
+  containers:
+    - name: test
+      image: busybox:latest
+      command: ["sh", "-c", "wget -qO- http://init-service:80; sleep 3600"]
