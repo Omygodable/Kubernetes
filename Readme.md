@@ -24,3 +24,37 @@
 - [deployment-web.yaml](deployment-web.yaml) — Deployment с nginx и multitool
 - [service-web.yaml](service-web.yaml) — Service для доступа к приложению
 - [test-pod.yaml](test-pod.yaml) — Pod для проверки доступности
+
+
+# Домашнее задание 3: Сетевое взаимодействие в Kubernetes
+
+## Задание 1: Настройка Service (ClusterIP и NodePort)
+
+### Манифесты
+- deployment-multi-container.yaml
+- service-clusterip.yaml
+- service-nodeport.yaml
+- deployment-frontend.yaml
+- deployment-backend.yaml
+- service-frontend.yaml
+- service-backend.yaml
+- ingress.yaml
+
+### Запуск
+```bash
+microk8s kubectl apply -f deployment-multi-container.yaml
+microk8s kubectl apply -f service-clusterip.yaml
+microk8s kubectl apply -f service-nodeport.yaml
+microk8s kubectl apply -f deployment-frontend.yaml
+microk8s kubectl apply -f deployment-backend.yaml
+microk8s kubectl apply -f service-frontend.yaml
+microk8s kubectl apply -f service-backend.yaml
+microk8s kubectl apply -f ingress.yaml
+
+Deployment с nginx + multitool запущен (3 реплики)
+
+ClusterIP Service работает (доступ изнутри кластера)
+
+NodePort Service работает (доступ снаружи)
+
+Ingress настроен и работает (маршрутизация по путям)
