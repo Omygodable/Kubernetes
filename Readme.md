@@ -58,3 +58,36 @@ ClusterIP Service работает (доступ изнутри кластера
 NodePort Service работает (доступ снаружи)
 
 Ingress настроен и работает (маршрутизация по путям)
+
+
+
+# Домашнее задание 4 : Хранение в K8S
+
+## Задание 1: Volume (обмен данными между контейнерами)
+
+### Манифест
+- [containers-data-exchange.yaml](containers-data-exchange.yaml)
+
+### Запуск
+microk8s kubectl apply -f containers-data-exchange.yaml
+
+## Задание 2: PV, PVC
+
+### Манифест
+pv-pvc.yaml
+
+microk8s kubectl apply -f pv-pvc.yaml
+
+Объяснение: PV перешёл в состояние Released. Это значит, что PVC был удалён, но данные на диске сохранились благодаря политике Retain.
+
+Объяснение: Файл остался на диске, потому что политика Retain не удаляет данные автоматически. PV был удалён из Kubernetes, но физические данные сохранились.
+
+## Задание 3: StorageClass
+
+### Манифесты
+sc.yaml
+pv-for-sc.yaml
+
+
+microk8s kubectl apply -f sc.yaml
+microk8s kubectl apply -f pv-for-sc.yaml
