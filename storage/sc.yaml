@@ -1,0 +1,63 @@
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: local-storage
+provisioner: kubernetes.io/no-provisioner
+volumeBindingMode: WaitForFirstConsumer
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: sc-pvc
+spec:
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 500Mi
+  storageClassName: local-storage
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: data-exchange-sc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: data-exchange-sc
+  template:
+    metadata:
+      labels:
+        app: data-exchange-sc
+    spec:
+      containers:
+        - name: writer
+          image: busybox:latest
+          command:
+            - /bin/sh
+            - -c
+            - |
+              while true; do
+                echo "$(date) - Writing data with SC" > /shared/data.txt
+                sleep 5
+              done
+          volumeMounts:
+            - name: sc-storage
+              mountPath: /shared
+        - name: reader
+          image: wbitt/network-multitool
+          command:
+            - /bin/sh
+            - -c
+            - |
+              tail -f /shared/data.txt
+          volumeMounts:
+            - name: sc-storage
+              mountPath: /shared
+      volumes:
+        - name: sc-storage
+          persistentVolumeClaim:
+            claimName: sc-pvc

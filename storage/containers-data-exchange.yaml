@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: data-exchange
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: data-exchange
+  template:
+    metadata:
+      labels:
+        app: data-exchange
+    spec:
+      containers:
+        - name: writer
+          image: busybox:latest
+          command:
+            - /bin/sh
+            - -c
+            - |
+              while true; do
+                echo "$(date) - Writing data" > /shared/data.txt
+                sleep 5
+              done
+          volumeMounts:
+            - name: shared-storage
+              mountPath: /shared
+        - name: reader
+          image: wbitt/network-multitool
+          command:
+            - /bin/sh
+            - -c
+            - |
+              tail -f /shared/data.txt
+          volumeMounts:
+            - name: shared-storage
+              mountPath: /shared
+      volumes:
+        - name: shared-storage
+          emptyDir: {}
