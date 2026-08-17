@@ -41,7 +41,6 @@
 - ingress.yaml
 
 ### Запуск
-```bash
 microk8s kubectl apply -f deployment-multi-container.yaml
 microk8s kubectl apply -f service-clusterip.yaml
 microk8s kubectl apply -f service-nodeport.yaml
@@ -61,7 +60,8 @@ Ingress настроен и работает (маршрутизация по п
 
 
 
-# Домашнее задание 4 : Хранение в K8S
+
+# Домашнее задание 4: Хранение в K8S
 
 ## Задание 1: Volume (обмен данными между контейнерами)
 
