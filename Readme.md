@@ -91,3 +91,66 @@ pv-for-sc.yaml
 
 microk8s kubectl apply -f sc.yaml
 microk8s kubectl apply -f pv-for-sc.yaml
+
+
+# Домашнее задание: Настройка приложений и управление доступом в Kubernetes
+
+## Задание 1: Работа с ConfigMaps
+
+### Манифесты
+- [configmap-web.yaml](configmap-web.yaml) — ConfigMap с веб-страницей
+- [deployment.yaml](deployment.yaml) — Deployment с nginx + multitool
+- [service-nodeport-web.yaml](service-nodeport-web.yaml) — Service типа NodePort
+
+### Запуск
+microk8s kubectl apply -f configmap-web.yaml
+microk8s kubectl apply -f deployment.yaml
+microk8s kubectl apply -f service-nodeport-web.yaml
+
+Проверка
+
+curl http://localhost:30081
+
+Результат: страница из ConfigMap отображается
+
+## Задание 2: Настройка HTTPS с Secrets
+Генерация сертификата
+
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+  -keyout tls.key -out tls.crt -subj "/CN=myapp.example.com"
+
+Создание Secret
+
+microk8s kubectl create secret tls tls-secret --key tls.key --cert tls.crt
+
+## Манифесты
+
+    ingress-tls.yaml — Ingress с TLS
+
+Проверка
+
+microk8s kubectl get secrets tls-secret
+microk8s kubectl get ingress tls-ingress
+
+## Задание 3: Настройка RBAC
+## Манифесты
+
+    role-pod-reader.yaml — Role для просмотра подов
+
+    rolebinding-developer.yaml — RoleBinding для пользователя developer
+
+Включение RBAC
+
+microk8s enable rbac
+
+Проверка доступа
+
+Успешный доступ (просмотр подов):
+
+microk8s kubectl get pods --as=developer
+
+Запрещённый доступ (создание подов):
+
+microk8s kubectl run test-pod --image=nginx --as=developer
+
+Error from server (Forbidden): pods is forbidden: User "developer" cannot create resource "pods" in API group "" in the namespace "default"
