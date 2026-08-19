@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Привет от ConfigMap</title>
+    </head>
+    <body>
+      <h1>Домашнее задание: ConfigMap</h1>
+      <p>Эта страница подключена через ConfigMap в Kubernetes!</p>
+      <p>Конфигурация работает успешно </p>
+    </body>
+    </html>
