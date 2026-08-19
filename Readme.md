@@ -93,7 +93,7 @@ microk8s kubectl apply -f sc.yaml
 microk8s kubectl apply -f pv-for-sc.yaml
 
 
-# Домашнее задание: Настройка приложений и управление доступом в Kubernetes
+# Домашнее задание 5 : Настройка приложений и управление доступом в Kubernetes
 
 ## Задание 1: Работа с ConfigMaps
 
