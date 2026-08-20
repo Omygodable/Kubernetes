@@ -1,0 +1,23 @@
+replicaCount: 2
+
+nginx:
+  image: nginx
+  tag: latest
+
+multitool:
+  image: wbitt/network-multitool
+  tag: latest
+
+service:
+  port: 80
+  multitoolPort: 8080
+
+htmlContent: |
+  <!DOCTYPE html>
+  <html>
+  <head><title>Helm Chart</title></head>
+  <body>
+    <h1> Привет из Helm!</h1>
+    <p>Это приложение развернуто через Helm</p>
+  </body>
+  </html>

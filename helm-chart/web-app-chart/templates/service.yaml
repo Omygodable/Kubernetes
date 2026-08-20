@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "web-app-chart.fullname" . }}
+  labels:
+    {{- include "web-app-chart.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: 80
+      protocol: TCP
+      name: nginx
+    - port: {{ .Values.service.multitoolPort }}
+      targetPort: {{ .Values.service.multitoolPort }}
+      protocol: TCP
+      name: multitool
+  selector:
+    {{- include "web-app-chart.selectorLabels" . | nindent 4 }}

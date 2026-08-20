@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    app: {{ .Chart.Name }}
+    release: {{ .Release.Name }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: 80
+      name: nginx
+    - port: {{ .Values.service.multitoolPort }}
+      targetPort: {{ .Values.service.multitoolPort }}
+      name: multitool
+  selector:
+    app: {{ .Chart.Name }}
+    release: {{ .Release.Name }}

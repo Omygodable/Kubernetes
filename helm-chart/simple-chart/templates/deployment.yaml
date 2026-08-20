@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    app: {{ .Chart.Name }}
+    release: {{ .Release.Name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: nginx
+          image: "{{ .Values.nginx.image }}:{{ .Values.nginx.tag }}"
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: html-config
+              mountPath: /usr/share/nginx/html
+        - name: multitool
+          image: "{{ .Values.multitool.image }}:{{ .Values.multitool.tag }}"
+          env:
+            - name: HTTP_PORT
+              value: "{{ .Values.service.multitoolPort }}"
+          ports:
+            - containerPort: {{ .Values.service.multitoolPort }}
+      volumes:
+        - name: html-config
+          configMap:
+            name: {{ .Release.Name }}-config

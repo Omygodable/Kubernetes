@@ -1,0 +1,52 @@
+# Количество реплик
+replicaCount: 1
+
+# Настройки образов
+image:
+  nginx:
+    repository: nginx
+    tag: latest
+    pullPolicy: IfNotPresent
+  multitool:
+    repository: wbitt/network-multitool
+    tag: latest
+    pullPolicy: IfNotPresent
+
+# Настройки Service
+service:
+  type: ClusterIP
+  port: 80
+  multitoolPort: 8080
+
+# Настройки Ingress
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+
+# Настройки ConfigMap
+configMap:
+  enabled: true
+  indexHtml: |
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Helm Chart приложение</title>
+    </head>
+    <body>
+      <h1> Привет из Helm-чарта!</h1>
+      <p>Это приложение развёрнуто с помощью Helm.</p>
+      <p>Версия: {{ .Chart.Version }}</p>
+    </body>
+    </html>
+
+# Настройки ServiceAccount
+serviceAccount:
+  create: false
+  name: ""
